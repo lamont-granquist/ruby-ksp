@@ -1,0 +1,53 @@
+grammar KspConfigNode
+  rule doc
+    __ (single_statement / "}" __ )* __ <Doc>
+  end
+
+  rule node
+    identifier __ ( single_statement / multi_statement ) __ <Node>
+  end
+
+  rule single_statement
+    node / value_assignment / multi_statement / garbage __ <Statement>
+  end
+
+  rule multi_statement
+    "{" __ single_statement* ( "}" / eof ) __ <MultiStatement>
+  end
+
+  rule value_assignment
+    identifier whitespace* [+-/*^]? "=" whitespace* value __ <Assignment>
+  end
+
+  rule garbage
+    identifier __
+  end
+
+  rule value
+    (!eolChar .)* <Value>
+  end
+
+  rule identifier
+    [^={} \t\u00A0\uFEFF\u1680\u180E\u2000-\u200A\u202F\u205F\u3000\n\r\u2028\u2029]+ <Identifier>
+  end
+
+  rule __
+    ( whitespace / eol / comment )*
+  end
+
+  rule comment
+    ( "//" / "\\\\" ) (!eolChar .)*
+  end
+
+  rule eol
+   "\n" / "\r\n" / "\r" / "\u2028" / "\u2029"
+  end
+
+  rule eolChar
+   [\n\r\u2028\u2029]
+  end
+
+  rule whitespace
+    [ \t\u00A0\uFEFF\u1680\u180E\u2000-\u200A\u202F\u205F\u3000]
+  end
+end
