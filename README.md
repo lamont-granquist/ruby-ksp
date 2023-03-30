@@ -15,3 +15,6 @@ broken syntax that means that broken syntax is common, and now every parser need
 all kinds of broken syntax edge conditions.  That is not what Postel intended.
 
 This does not and will not support ModuleManager syntax.
+
+NOTE that I wrote this around 2019 and the Gemfile.lock contains horribly out of date versions and
+it was likely written on ruby 2.6 or so.
